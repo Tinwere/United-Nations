@@ -66,7 +66,7 @@ public class UnitedNationsFinal extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        while (opModeIsActive()) {
+        while (opModeIsActive()) { //hi
             double max;
 
 
