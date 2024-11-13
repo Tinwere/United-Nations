@@ -31,10 +31,10 @@ public class UNAutonomousRed extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         //Drive forward for 2 seconds
-        robot.leftFrontMotor.setPower(1);
-        robot.leftBackMotor.setPower(1);
-        robot.rightFrontMotor.setPower(1);
-        robot.rightBackMotor.setPower(1);
+        robot.leftFrontMotor.setPower(0.5);
+        robot.leftBackMotor.setPower(0.5);
+        robot.rightFrontMotor.setPower(0.5);
+        robot.rightBackMotor.setPower(0.5);
         sleep(2000);
 
 

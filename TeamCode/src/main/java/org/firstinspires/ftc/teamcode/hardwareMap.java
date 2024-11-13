@@ -27,10 +27,10 @@ public class hardwareMap {
         hwMap = ahwMap;
 
         //Define and Initilize motors
-        leftFrontMotor  = hwMap.get(DcMotor.class, "left front");
-        leftBackMotor  = hwMap.get(DcMotor.class, "left back");
-        rightFrontMotor = hwMap.get(DcMotor.class, "right front");
-        rightBackMotor = hwMap.get(DcMotor.class, "right back");
+        leftFrontMotor  = hwMap.get(DcMotor.class, "leftFrontMotor");
+        leftBackMotor  = hwMap.get(DcMotor.class, "leftBackMotor");
+        rightFrontMotor = hwMap.get(DcMotor.class, "rightFrontMotor");
+        rightBackMotor = hwMap.get(DcMotor.class, "rightBackMotor");
         servoGripper1 = hwMap.get(Servo.class, "servo2");
         servoGripper2 = hwMap.get(Servo.class, "servo3");
 

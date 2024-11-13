@@ -82,10 +82,10 @@ public class UNAutonomousBlue extends LinearOpMode {
         waitForStart();
 
         //drive forward
-        robot.leftFrontMotor.setPower(1);
-        robot.leftBackMotor.setPower(1);
-        robot.rightFrontMotor.setPower(1);
-        robot.rightBackMotor.setPower(1);
+        robot.leftFrontMotor.setPower(0.5);
+        robot.leftBackMotor.setPower(0.5);
+        robot.rightFrontMotor.setPower(0.5);
+        robot.rightBackMotor.setPower(0.5);
         sleep(2000);
 
         //turn left
@@ -96,10 +96,10 @@ public class UNAutonomousBlue extends LinearOpMode {
         sleep(750); //play with the time on the day
 
         //Forward
-        robot.leftFrontMotor.setPower(1);
-        robot.leftBackMotor.setPower(1);
-        robot.rightFrontMotor.setPower(1);
-        robot.rightBackMotor.setPower(1);
+        robot.leftFrontMotor.setPower(0.5);
+        robot.leftBackMotor.setPower(0.5);
+        robot.rightFrontMotor.setPower(0.5);
+        robot.rightBackMotor.setPower(0.5);
         sleep(4000);
 
 
