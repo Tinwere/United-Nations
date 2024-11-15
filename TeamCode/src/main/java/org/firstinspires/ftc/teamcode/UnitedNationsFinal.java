@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -21,19 +23,17 @@ public class UnitedNationsFinal extends LinearOpMode {
         DcMotor leftBackMotor = hardwareMap.get(DcMotor.class, "leftBackMotor");
         DcMotor rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFrontMotor");
         DcMotor rightBackMotor = hardwareMap.get(DcMotor.class, "rightBackMotor");
-        DcMotor motorArm = hardwareMap.get(DcMotor.class, "motorArm");
-        DcMotor motorLift1 = hardwareMap.get(DcMotor.class, "motorLift1");
-        DcMotor motorLift2 = hardwareMap.get(DcMotor.class, "motorLift2");
-        Servo servoPlane = hardwareMap.get(Servo.class, "servo1");
-        Servo servoGripper1 = hardwareMap.get(Servo.class, "servo2");
-        Servo servoGripper2 = hardwareMap.get(Servo.class, "servo3");
+        DcMotor motorBasket = hardwareMap.get(DcMotor.class, "motorBasket");
+        DcMotor motorSlide = hardwareMap.get(DcMotor.class, "motorSlide");
+        Servo servoGripper = hardwareMap.get(Servo.class, "servo0");
+        Servo servoRotator = hardwareMap.get(Servo.class, "servo1");
         DcMotor gripperMover = hardwareMap.get(DcMotor.class, "gripperMover");
 
         //init variables
         double armPower;
         double armReversePower;
-        int armUpPosition = 60;
-        int armDownPosition = 0;
+        double slidePower;
+        double slideReversePower;
 
 
 
@@ -46,22 +46,9 @@ public class UnitedNationsFinal extends LinearOpMode {
         leftBackMotor.setDirection(DcMotor.Direction.REVERSE);
         rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);
         rightBackMotor.setDirection(DcMotor.Direction.FORWARD);
-        motorLift1.setDirection(DcMotor.Direction.REVERSE);
-        motorLift2.setDirection(DcMotor.Direction.FORWARD);
-        servoGripper1.setDirection(Servo.Direction.REVERSE);
-        servoPlane.setDirection(Servo.Direction.REVERSE);
 
 
 
-
-        //Lift movement:
-
-        motorLift1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLift2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorLift1.setTargetPosition(armDownPosition);
-        motorLift2.setTargetPosition(armDownPosition);
-        motorLift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorLift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
         telemetry.addData("Status", "Initialized");
@@ -78,47 +65,32 @@ public class UnitedNationsFinal extends LinearOpMode {
 
             //Extending arm
 
-            armPower = gamepad2.right_trigger;
-            armReversePower = gamepad2.left_trigger * 0.25;
-            motorArm.setPower(armPower);
-            motorArm.setPower(-armReversePower);
+            armPower = gamepad2.right_trigger ;
+            armReversePower = gamepad2.left_trigger ;
+            motorBasket.setPower(-armPower);
+            motorBasket.setPower(armReversePower);
 
             //Lifting up the arm
 
-            if(gamepad1.a) {
-                motorLift1.setTargetPosition(armUpPosition);
-                motorLift2.setTargetPosition(armUpPosition);
-                motorLift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorLift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorLift1.setPower(1);
-                motorLift2.setPower(1); //need to tweak
-            }
+            slidePower = gamepad1.right_trigger;
+            slideReversePower = gamepad1.left_trigger;
+            motorSlide.setPower(-slidePower);
+            motorSlide.setPower(slideReversePower);
 
-            //Lowering the arm
-            if(gamepad1.b) {
-                motorLift1.setTargetPosition(armDownPosition);
-                motorLift2.setTargetPosition(armDownPosition);
-                motorLift1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorLift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorLift1.setPower(0.5);
-                motorLift2.setPower(0);  //need to tweak
-            }
-            //Paper plane servo --> Need to figure out vales
 
-            if(gamepad2.b){
-                servoPlane.setPosition(0.8);
-            } else {
-                servoPlane.setPosition(0.05);
-            }
 
 
             //Gripper control --> Need to edit values
-            if(gamepad2.x) {
-                servoGripper1.setPosition(0.9);
-                servoGripper2.setPosition(1);
-            } else if (gamepad2.y) {
-                servoGripper1.setPosition(0.7);
-                servoGripper2.setPosition(0.75);
+            if(gamepad2.a) {
+                servoRotator.setPosition(0.7);
+            } else if (gamepad2.b) {
+                servoRotator.setPosition(0.3);
+            }
+
+            if(gamepad1.x) {
+                servoGripper.setPosition(1);
+            } else if (gamepad1.y) {
+                servoGripper.setPosition(0.5);
             }
 
 
@@ -155,7 +127,7 @@ public class UnitedNationsFinal extends LinearOpMode {
             rightBackMotor.setPower(rightBackPower);
 
             //core hex motor code
-            double spin = gamepad2.right_stick_y * 0.25;
+            double spin = -gamepad2.right_stick_y * 0.25;
 
             gripperMover.setPower(spin);
 
@@ -163,8 +135,7 @@ public class UnitedNationsFinal extends LinearOpMode {
 
             //Position of the Encoders
 
-            double position1 = motorLift1.getCurrentPosition();
-            double position2 = motorLift2.getCurrentPosition();
+            double position1 = motorSlide.getCurrentPosition();
 
             //Target position of encoders
 
@@ -177,10 +148,10 @@ public class UnitedNationsFinal extends LinearOpMode {
             telemetry.addData("Arm Power", armPower);
             telemetry.addData("Reverse arm Power", armReversePower);
             telemetry.addData("Encoder Position", position1);
-            telemetry.addData("Encoder Position", position2);
-            telemetry.addData("Servo Position", servoGripper1.getPosition());
-            telemetry.addData("Servo Position2,", servoGripper2.getPosition());
-            telemetry.addData("aeroplane", servoPlane.getPosition());
+            telemetry.addData("Slide Position", motorSlide.getPower());
+            telemetry.addData("Servo Position", servoGripper.getPosition());
+            telemetry.addData("Servo Power", servoRotator.getPosition());
+
 
             telemetry.update();
 

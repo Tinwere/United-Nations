@@ -9,9 +9,11 @@ public class hardwareMap {
     public DcMotor rightBackMotor = null;
     public DcMotor leftFrontMotor = null;
     public DcMotor leftBackMotor = null;
+    public DcMotor motorBasket = null;
 
-    public Servo servoGripper1 = null;
-    public Servo servoGripper2 = null;
+    public Servo servoGripper = null;
+    public Servo servoRotator = null;
+
 
 
 
@@ -31,8 +33,10 @@ public class hardwareMap {
         leftBackMotor  = hwMap.get(DcMotor.class, "leftBackMotor");
         rightFrontMotor = hwMap.get(DcMotor.class, "rightFrontMotor");
         rightBackMotor = hwMap.get(DcMotor.class, "rightBackMotor");
-        servoGripper1 = hwMap.get(Servo.class, "servo2");
-        servoGripper2 = hwMap.get(Servo.class, "servo3");
+        servoGripper = hwMap.get(Servo.class, "servo0");
+        servoRotator = hwMap.get(Servo.class, "servo1");
+        motorBasket = hwMap.get(DcMotor.class, "motorBasket");
+
 
 
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -46,6 +50,7 @@ public class hardwareMap {
         leftFrontMotor.setPower(0);
         rightBackMotor.setPower(0);
         rightFrontMotor.setPower(0);
+        motorBasket.setPower(0);
     }
 
 }
